@@ -90,13 +90,13 @@
     <b>说明：</b>开标时间即投标文件递交截止时间。投标保证金须在开标前到账。<br>
     已核验项＝人工核对基线；带「待复核」为新增文件夹自动提取，建议复核。无答疑记录的项目不显示答疑标签。
   </div>
-  <div class="sharebar"><button onclick="exportShare()">☁️ 生成分享页</button></div>
+  <div class="sharebar"><button onclick="deployGithub()">☁️ 部署到 GitHub</button></div>
 </div>
 <div class="modal" id="modal" onclick="if(event.target===this)closeShare()">
   <div class="modal-box">
     <button class="modal-x" onclick="closeShare()">×</button>
-    <h3>分享到手机 / 云端</h3>
-    <div id="fsStatus" class="qr-tip">点击下方按钮生成自包含网页，可直接发到飞书 / 微信，或让 WorkBuddy 帮你部署成公网链接（电脑关机也能看）。</div>
+    <h3>部署到 GitHub Pages</h3>
+    <div id="fsStatus" class="qr-tip">点击下方按钮，把最新表单同步到 GitHub Pages 固定链接（电脑关机也能看，链接不变）。</div>
     <p class="qr-url" id="fsPath" style="display:none"></p>
     <p class="qr-url" id="fsUrl"></p>
   </div>
@@ -135,15 +135,16 @@ function render(d){
   document.getElementById("tbody").innerHTML=h;
 }
 function load(){fetch("data.json?t="+Date.now()).then(r=>r.json()).then(render).catch(function(){document.getElementById("tbody").innerHTML='<div class="row"><div class="pname">加载失败，请关闭后重新打开</div></div>'});}
-render({"updated_at": "2026-07-18 09:36:20", "count": 8, "projects": [{"project": "舜溪中路东侧、溪河路南侧(ZL060412)地块项目施工总承包", "owner": "常州市焦溪古镇保护发展有限公司", "deposit": "公告未列", "deposit_deadline": "未明确", "deposit_type": "公告未列", "open_time": "2026-07-17 09:30", "folder": "205舜溪中路东侧", "source": "招标文件正文.pdf", "status": "已核验", "qa_count": 0, "qa_label": "（暂无答疑）"}, {"project": "淮安旭创科技有限公司光通信产业基地项目一期土建工程", "owner": "淮安旭创科技有限公司", "deposit": "200 万元", "deposit_deadline": "同开标前到账", "deposit_type": "现金转账、银行保函", "open_time": "2026-07-26 14:00", "folder": "210淮安旭创", "source": "淮安旭创科技有限公司光通信产业基地项目一期土建工程招标文件20260710发布稿(2).doc", "status": "已核验", "qa_count": 1, "qa_label": "（1次答疑）"}, {"project": "南京医科大学江宁校区学生公寓南苑09栋施工总承包", "owner": "江苏省公共工程建设中心有限公司", "deposit": "50 万元", "deposit_deadline": "同开标前到账", "deposit_type": "银行转账、银行保函", "open_time": "2026-07-27 09:00", "folder": "201南京医科大学", "source": "招标文件正文.pdf", "status": "已核验", "qa_count": 3, "qa_label": "（3次答疑）"}, {"project": "南京民防大厦部分楼层维修改造及设备更新工程", "owner": "南京市机关事务管理局", "deposit": "45 万元", "deposit_deadline": "同开标前到账", "deposit_type": "现金、支票、银行保函、保险保单、担保保函、信用承诺", "open_time": "2026-07-28 09:15", "folder": "207南京民防大厦改造（芮）", "source": "招标文件.pdf", "status": "已核验", "qa_count": 1, "qa_label": "（1次答疑）"}, {"project": "南京信息工程大学新建文园学生宿舍项目施工总承包", "owner": "江苏省公共工程建设中心有限公司", "deposit": "50 万元", "deposit_deadline": "同开标前到账", "deposit_type": "银行转账、银行保函", "open_time": "2026-07-30 09:00", "folder": "212南京信息工程大学", "source": "招标文件正文.pdf", "status": "已核验", "qa_count": 0, "qa_label": "（暂无答疑）"}, {"project": "南京工程学院北区13#学生宿舍施工总承包", "owner": "江苏省公共工程建设中心有限公司", "deposit": "50 万元", "deposit_deadline": "同开标前到账", "deposit_type": "银行转账、银行保函", "open_time": "2026-08-04 09:00", "folder": "212南京工程学院北区13#学生宿舍", "source": "招标文件正文.pdf", "status": "已核验", "qa_count": 0, "qa_label": "（暂无答疑）"}, {"project": "210广西启瑞", "owner": "", "deposit": "", "deposit_deadline": "", "open_time": "", "deposit_type": "", "folder": "210广西启瑞", "source": "钢结构防火计算书.docx", "status": "自动提取·待复核", "qa_count": 0, "qa_label": "（暂无答疑）"}, {"folder": "218常外建模", "project": "218常外建模", "owner": "", "deposit": "无招标文件", "deposit_deadline": "", "open_time": "", "source": "", "status": "无招标公告/正文", "qa_count": 0, "qa_label": "（暂无答疑）"}]});
-function exportShare(){
+render({"updated_at": "2026-07-18 11:03:04", "count": 8, "projects": [{"project": "舜溪中路东侧、溪河路南侧(ZL060412)地块项目施工总承包", "owner": "常州市焦溪古镇保护发展有限公司", "deposit": "公告未列", "deposit_deadline": "未明确", "deposit_type": "公告未列", "open_time": "2026-07-17 09:30", "folder": "205舜溪中路东侧", "source": "招标文件正文.pdf", "status": "已核验", "qa_count": 0, "qa_label": "（暂无答疑）"}, {"project": "淮安旭创科技有限公司光通信产业基地项目一期土建工程", "owner": "淮安旭创科技有限公司", "deposit": "200 万元", "deposit_deadline": "同开标前到账", "deposit_type": "现金转账、银行保函", "open_time": "2026-07-26 14:00", "folder": "210淮安旭创", "source": "淮安旭创科技有限公司光通信产业基地项目一期土建工程招标文件20260710发布稿(2).doc", "status": "已核验", "qa_count": 1, "qa_label": "（1次答疑）"}, {"project": "南京医科大学江宁校区学生公寓南苑09栋施工总承包", "owner": "江苏省公共工程建设中心有限公司", "deposit": "50 万元", "deposit_deadline": "同开标前到账", "deposit_type": "银行转账、银行保函", "open_time": "2026-07-27 09:00", "folder": "201南京医科大学", "source": "招标文件正文.pdf", "status": "已核验", "qa_count": 3, "qa_label": "（3次答疑）"}, {"project": "南京民防大厦部分楼层维修改造及设备更新工程", "owner": "南京市机关事务管理局", "deposit": "45 万元", "deposit_deadline": "同开标前到账", "deposit_type": "现金、支票、银行保函、保险保单、担保保函、信用承诺", "open_time": "2026-07-28 09:15", "folder": "207南京民防大厦改造（芮）", "source": "招标文件.pdf", "status": "已核验", "qa_count": 1, "qa_label": "（1次答疑）"}, {"project": "南京信息工程大学新建文园学生宿舍项目施工总承包", "owner": "江苏省公共工程建设中心有限公司", "deposit": "50 万元", "deposit_deadline": "同开标前到账", "deposit_type": "银行转账、银行保函", "open_time": "2026-07-30 09:00", "folder": "212南京信息工程大学", "source": "招标文件正文.pdf", "status": "已核验", "qa_count": 0, "qa_label": "（暂无答疑）"}, {"project": "南京工程学院北区13#学生宿舍施工总承包", "owner": "江苏省公共工程建设中心有限公司", "deposit": "50 万元", "deposit_deadline": "同开标前到账", "deposit_type": "银行转账、银行保函", "open_time": "2026-08-04 09:00", "folder": "212南京工程学院北区13#学生宿舍", "source": "招标文件正文.pdf", "status": "已核验", "qa_count": 0, "qa_label": "（暂无答疑）"}, {"project": "210广西启瑞", "owner": "", "deposit": "", "deposit_deadline": "", "open_time": "", "deposit_type": "", "folder": "210广西启瑞", "source": "钢结构防火计算书.docx", "status": "自动提取·待复核", "qa_count": 0, "qa_label": "（暂无答疑）"}, {"folder": "218常外建模", "project": "218常外建模", "owner": "", "deposit": "无招标文件", "deposit_deadline": "", "open_time": "", "source": "", "status": "无招标公告/正文", "qa_count": 0, "qa_label": "（暂无答疑）"}]});
+function deployGithub(){
   var m=document.getElementById("modal");m.style.display="flex";
-  var st=document.getElementById("fsStatus");var p=document.getElementById("fsPath");var url=document.getElementById("fsUrl");
-  st.textContent="正在生成…";p.style.display="none";url.style.display="none";
-  fetch("api/export_share",{method:"POST"}).then(r=>r.json()).then(function(d){
-    if(d.ok){st.innerHTML='已生成自包含网页文件。可直接发到飞书 / 微信，或让 WorkBuddy 帮你部署成公网链接（电脑关机也能看）。文件路径：';p.textContent=d.path;p.style.display="block";}
-    else{st.textContent="生成失败："+d.err;}
-  }).catch(function(e){st.textContent="请求失败："+e;});
+  var st=document.getElementById("fsStatus");var url=document.getElementById("fsUrl");
+  st.textContent="正在部署到 GitHub…";url.style.display="none";
+  fetch("api/github_push",{method:"POST"}).then(r=>r.json()).then(function(d){
+    if(d.ok){st.textContent="✅ 已部署到 GitHub Pages，链接固定不变（电脑关机也能看）。复制下方链接发到飞书 / 微信 / 日历：";url.textContent=d.url;url.style.display="block";}
+    else if(d.need_config){st.textContent="⚠️ 尚未配置 GitHub 凭证：请在软件目录 app\\_runtime\\github.json 填写 owner / repo / token。";}
+    else{st.textContent="❌ 部署失败："+d.err;}
+  }).catch(function(e){st.textContent="❌ 请求失败："+e;});
 }
 function closeShare(){document.getElementById("modal").style.display="none";}
 </script>
