@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>待开标情况表</title>
+<style>
+  :root{
+    --blue:#0072B2; --orange:#E69F00; --ink:#1a1f29; --muted:#6b7280;
+    --line:#eceff3; --bg:#fbfcfe; --card:#ffffff;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;
+    color:var(--ink); background:var(--bg); line-height:1.55; -webkit-font-smoothing:antialiased;
+    padding:40px 20px 64px;
+  }
+  .wrap{max-width:1360px;margin:0 auto}
+  .eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  h1{font-size:30px;font-weight:700;letter-spacing:-.02em;margin:6px 0 4px}
+  .sub{color:var(--muted);font-size:14px;margin-bottom:22px}
+
+  /* ====== 表格容器（Flexbox 布局） ====== */
+  .table{background:var(--card);border-radius:14px;overflow:hidden;box-shadow:0 1px 3px rgba(16,24,40,.06),0 8px 24px rgba(16,24,40,.04)}
+  .row{
+    display:flex;align-items:center;padding:16px 20px;
+    border-left:7px solid transparent;transition:background .15s;gap:16px;
+  }
+  .row+.row{border-top:1px solid var(--line)}
+  .row:hover{filter:brightness(.985)}
+  .row.odd{background:#ddeaf8;border-left-color:var(--blue)}
+  .row.even{background:#fff8ec;border-left-color:var(--orange)}
+  /* 列宽 — 全部居中对齐 */
+  .col-no{width:40px;flex-shrink:0;display:flex;justify-content:center}
+  .col-name{flex:2.2;min-width:200px;overflow:hidden;display:flex;flex-direction:column;align-items:center;text-align:center}
+  .col-deposit{width:160px;flex-shrink:0;display:flex;justify-content:center;text-align:center}
+  .col-dl{width:110px;flex-shrink:0;display:flex;justify-content:center;text-align:center}
+  .col-form{width:170px;flex-shrink:0;font-size:14px;word-break:break-word;display:flex;justify-content:center;text-align:center;color:var(--ink)}
+  .col-time{width:170px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;text-align:center}
+  .no{font-weight:700;font-size:18px;font-variant-numeric:tabular-nums}
+  .row.odd .no{color:var(--blue)} .row.even .no{color:var(--orange)}
+  .pname{font-weight:600;font-size:14px;word-break:break-word;text-align:center;color:var(--ink)}
+  .owner .qa,.pname .qa{display:inline-block;border:1.5px solid var(--muted);border-radius:999px;padding:1px 9px;font-size:12px;font-weight:600;color:var(--muted);margin-left:6px;vertical-align:middle}
+  .owner{color:var(--muted);font-size:13px;margin-top:2px;word-break:break-word;text-align:center}
+  .col-deposit{font-size:14px;font-weight:600;text-align:center;color:var(--ink)}
+  .deadline{font-size:14px;color:var(--ink);text-align:center}
+  .otime{font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;text-align:center;color:var(--ink)}
+  .tag{display:inline-block;font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:6px;margin-top:4px}
+  .tag.ok{background:#e7f4ec;color:#1f7a43}
+  .tag.rev{background:#fff3df;color:#a8650a}
+  .tag.none{background:#f1f3f5;color:#8a93a0}
+  /* ====== 表头行 ====== */
+  .row.head{background:#f0f3f7;color:var(--ink);border-left-color:#c9d2df;font-size:15.5px;font-weight:700;padding:14px 20px;justify-content:center;text-align:center}
+  .row.head>.col-no,.row.head>.col-name,.row.head>.col-deposit,.row.head>.col-form,.row.head>.col-dl,.row.head>.col-time{display:flex;align-items:center;justify-content:center;text-align:center}
+  .row.head *{font-size:15.5px!important;font-weight:700!important;color:var(--ink)!important;text-align:center}
+  .row.head .pill{border-color:#b0bcc8;font-size:13px!important;padding:4px 12px}
+  .foot{margin-top:18px;color:var(--muted);font-size:12.5px;line-height:1.7}
+  .foot b{color:var(--ink)}
+  @media(max-width:760px){
+    .row{grid-template-columns:1fr;gap:6px;border-left:none;border-top:5px solid transparent;padding:16px}
+    .row.odd{border-top-color:var(--blue)} .row.even{border-top-color:var(--orange)}
+    .no{font-size:14px}
+    .legend{margin-left:0;width:100%}
+  }
+  /* ====== 分享到手机 ====== */
+  .sharebar{display:flex;justify-content:flex-end;margin-top:18px}
+  .sharebar button{
+    border:1px solid var(--blue);background:var(--blue);color:#fff;font-size:13px;font-weight:600;
+    padding:8px 18px;border-radius:8px;cursor:pointer;transition:.18s;display:inline-flex;align-items:center;gap:6px
+  }
+  .sharebar button:hover{background:#005f93}
+  .modal{display:none;position:fixed;inset:0;background:rgba(16,24,40,.45);align-items:center;justify-content:center;z-index:50}
+  .modal-box{background:#fff;border-radius:14px;padding:26px 30px;max-width:340px;width:90%;text-align:center;position:relative;box-shadow:0 20px 60px rgba(16,24,40,.25)}
+  .modal-box h3{margin:0 0 16px;font-size:18px;font-weight:700}
+  .modal-x{position:absolute;top:10px;right:14px;border:none;background:none;font-size:24px;line-height:1;color:var(--muted);cursor:pointer}
+  .qr{display:flex;justify-content:center;padding:8px}
+  .qr img{width:200px;height:200px;border:1px solid var(--line);border-radius:8px}
+  .qr-tip{color:var(--muted);font-size:12.5px;line-height:1.7;margin:14px 4px 0}
+  .qr-url{color:var(--ink);font-size:12px;word-break:break-all;margin-top:8px;font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">招标跟踪 · 自动汇总</div>
+  <h1>待开标情况表</h1>
+  <div class="sub">数据来源：F:\投标 ｜ 更新时间：<span id="updtime">—</span></div>
+  <div class="table" id="tbl"><div class="tbody" id="tbody">加载中…</div></div>
+  <div class="foot">
+    <b>说明：</b>开标时间即投标文件递交截止时间。投标保证金须在开标前到账。<br>
+    已核验项＝人工核对基线；带「待复核」为新增文件夹自动提取，建议复核。无答疑记录的项目不显示答疑标签。
+  </div>
+  <div class="sharebar"><button onclick="exportShare()">☁️ 生成分享页</button></div>
+</div>
+<div class="modal" id="modal" onclick="if(event.target===this)closeShare()">
+  <div class="modal-box">
+    <button class="modal-x" onclick="closeShare()">×</button>
+    <h3>分享到手机 / 云端</h3>
+    <div id="fsStatus" class="qr-tip">点击下方按钮生成自包含网页，可直接发到飞书 / 微信，或让 WorkBuddy 帮你部署成公网链接（电脑关机也能看）。</div>
+    <p class="qr-url" id="fsPath" style="display:none"></p>
+    <p class="qr-url" id="fsUrl"></p>
+  </div>
+</div>
+<script>
+function esc(s){return (s||"").replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]))}
+function render(d){
+  document.getElementById("updtime").textContent=d.updated_at||"—";
+  if(d.error){document.getElementById("tbody").innerHTML='<div class="row"><div class="pname" style="color:#b00">'+esc(d.error)+'</div></div>';return;}
+  if(!d.projects||!d.projects.length){document.getElementById("tbody").innerHTML='<div class="row"><div class="pname">未找到招标项目</div></div>';return;}
+  var h="";
+  // 表头行
+  h+='<div class="row head">'
+    +'<div class="col-no no">序号</div>'
+    +'<div class="col-name"><div class="pname">项目名称</div></div>'
+    +'<div class="col-deposit">投标保证金</div>'
+    +'<div class="col-form">保证金形式</div>'
+    +'<div class="col-dl deadline">保证金截止</div>'
+    +'<div class="col-time"><div class="otime">开标时间</div></div>'
+    +'</div>';
+  d.projects.forEach(function(p,i){
+    var cls=i%2===0?"odd":"even";
+    var st=p.status||"";var tagcls="none";
+    if(st.indexOf("已核验")>=0)tagcls="ok";else if(st.indexOf("待复核")>=0)tagcls="rev";
+    h+='<div class="row '+cls+'">'
+      +'<div class="col-no no">'+(i+1)+'</div>'
+      +'<div class="col-name"><div class="pname">'+esc(p.project)+'</div>'
+      +'<div class="owner">'+esc(p.owner||"—")+(p.qa_count>0?' <span class="qa">'+esc(p.qa_label)+'</span>':'')+'</div>'
+      +'</div>'
+      +'<div class="col-deposit">'+(p.deposit||"—")+'</div>'
+      +'<div class="col-form">'+(p.deposit_type||"—")+'</div>'
+      +'<div class="col-dl deadline">'+(p.deposit_deadline||"—")+'</div>'
+      +'<div class="col-time"><div class="otime">'+(p.open_time||"—")+'</div><span class="tag '+tagcls+'">'+esc(st)+'</span></div>'
+      +'</div>';
+  });
+  document.getElementById("tbody").innerHTML=h;
+}
+function load(){fetch("data.json?t="+Date.now()).then(r=>r.json()).then(render).catch(function(){document.getElementById("tbody").innerHTML='<div class="row"><div class="pname">加载失败，请关闭后重新打开</div></div>'});}
+render({"updated_at": "2026-07-18 09:36:20", "count": 8, "projects": [{"project": "舜溪中路东侧、溪河路南侧(ZL060412)地块项目施工总承包", "owner": "常州市焦溪古镇保护发展有限公司", "deposit": "公告未列", "deposit_deadline": "未明确", "deposit_type": "公告未列", "open_time": "2026-07-17 09:30", "folder": "205舜溪中路东侧", "source": "招标文件正文.pdf", "status": "已核验", "qa_count": 0, "qa_label": "（暂无答疑）"}, {"project": "淮安旭创科技有限公司光通信产业基地项目一期土建工程", "owner": "淮安旭创科技有限公司", "deposit": "200 万元", "deposit_deadline": "同开标前到账", "deposit_type": "现金转账、银行保函", "open_time": "2026-07-26 14:00", "folder": "210淮安旭创", "source": "淮安旭创科技有限公司光通信产业基地项目一期土建工程招标文件20260710发布稿(2).doc", "status": "已核验", "qa_count": 1, "qa_label": "（1次答疑）"}, {"project": "南京医科大学江宁校区学生公寓南苑09栋施工总承包", "owner": "江苏省公共工程建设中心有限公司", "deposit": "50 万元", "deposit_deadline": "同开标前到账", "deposit_type": "银行转账、银行保函", "open_time": "2026-07-27 09:00", "folder": "201南京医科大学", "source": "招标文件正文.pdf", "status": "已核验", "qa_count": 3, "qa_label": "（3次答疑）"}, {"project": "南京民防大厦部分楼层维修改造及设备更新工程", "owner": "南京市机关事务管理局", "deposit": "45 万元", "deposit_deadline": "同开标前到账", "deposit_type": "现金、支票、银行保函、保险保单、担保保函、信用承诺", "open_time": "2026-07-28 09:15", "folder": "207南京民防大厦改造（芮）", "source": "招标文件.pdf", "status": "已核验", "qa_count": 1, "qa_label": "（1次答疑）"}, {"project": "南京信息工程大学新建文园学生宿舍项目施工总承包", "owner": "江苏省公共工程建设中心有限公司", "deposit": "50 万元", "deposit_deadline": "同开标前到账", "deposit_type": "银行转账、银行保函", "open_time": "2026-07-30 09:00", "folder": "212南京信息工程大学", "source": "招标文件正文.pdf", "status": "已核验", "qa_count": 0, "qa_label": "（暂无答疑）"}, {"project": "南京工程学院北区13#学生宿舍施工总承包", "owner": "江苏省公共工程建设中心有限公司", "deposit": "50 万元", "deposit_deadline": "同开标前到账", "deposit_type": "银行转账、银行保函", "open_time": "2026-08-04 09:00", "folder": "212南京工程学院北区13#学生宿舍", "source": "招标文件正文.pdf", "status": "已核验", "qa_count": 0, "qa_label": "（暂无答疑）"}, {"project": "210广西启瑞", "owner": "", "deposit": "", "deposit_deadline": "", "open_time": "", "deposit_type": "", "folder": "210广西启瑞", "source": "钢结构防火计算书.docx", "status": "自动提取·待复核", "qa_count": 0, "qa_label": "（暂无答疑）"}, {"folder": "218常外建模", "project": "218常外建模", "owner": "", "deposit": "无招标文件", "deposit_deadline": "", "open_time": "", "source": "", "status": "无招标公告/正文", "qa_count": 0, "qa_label": "（暂无答疑）"}]});
+function exportShare(){
+  var m=document.getElementById("modal");m.style.display="flex";
+  var st=document.getElementById("fsStatus");var p=document.getElementById("fsPath");var url=document.getElementById("fsUrl");
+  st.textContent="正在生成…";p.style.display="none";url.style.display="none";
+  fetch("api/export_share",{method:"POST"}).then(r=>r.json()).then(function(d){
+    if(d.ok){st.innerHTML='已生成自包含网页文件。可直接发到飞书 / 微信，或让 WorkBuddy 帮你部署成公网链接（电脑关机也能看）。文件路径：';p.textContent=d.path;p.style.display="block";}
+    else{st.textContent="生成失败："+d.err;}
+  }).catch(function(e){st.textContent="请求失败："+e;});
+}
+function closeShare(){document.getElementById("modal").style.display="none";}
+</script>
+</body>
+</html>
