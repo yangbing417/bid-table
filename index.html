@@ -70,6 +70,8 @@
     padding:8px 18px;border-radius:8px;cursor:pointer;transition:.18s;display:inline-flex;align-items:center;gap:6px
   }
   .sharebar button:hover{background:#005f93}
+  .sharebar button.ghost{background:#fff;color:var(--blue);border:1px solid var(--blue)}
+  .sharebar button.ghost:hover{background:#eef6fc}
   .modal{display:none;position:fixed;inset:0;background:rgba(16,24,40,.45);align-items:center;justify-content:center;z-index:50}
   .modal-box{background:#fff;border-radius:14px;padding:26px 30px;max-width:340px;width:90%;text-align:center;position:relative;box-shadow:0 20px 60px rgba(16,24,40,.25)}
   .modal-box h3{margin:0 0 16px;font-size:18px;font-weight:700}
@@ -84,13 +86,19 @@
 <div class="wrap">
   <div class="eyebrow">招标跟踪 · 自动汇总</div>
   <h1>待开标情况表</h1>
-  <div class="sub">数据来源：F:\投标 ｜ 更新时间：<span id="updtime">—</span></div>
+  <div class="sub">数据来源：<span id="srcfolder">F:\投标</span> ｜ 更新时间：<span id="updtime">—</span></div>
   <div class="table" id="tbl"><div class="tbody" id="tbody">加载中…</div></div>
   <div class="foot">
     <b>说明：</b>开标时间即投标文件递交截止时间。投标保证金须在开标前到账。<br>
     已核验项＝人工核对基线；带「待复核」为新增文件夹自动提取，建议复核。无答疑记录的项目不显示答疑标签。
   </div>
-  <div class="sharebar"><button onclick="exportImage()">📥 导出图片</button><button onclick="exportCalendar()">📅 导出日历</button></div>
+  <div class="sharebar">
+    <button class="ghost" onclick="openFolderSettings()">⚙️ 设置扫描文件夹</button>
+    <div style="display:flex;gap:10px">
+      <button onclick="exportImage()">📥 导出图片</button>
+      <button onclick="exportCalendar()">📅 导出日历</button>
+    </div>
+  </div>
 </div>
 <div class="modal" id="modal" onclick="if(event.target===this)closeShare()">
   <div class="modal-box">
@@ -101,11 +109,25 @@
     <p class="qr-url" id="fsUrl"></p>
   </div>
 </div>
+<div class="modal" id="folderModal" onclick="if(event.target===this)closeFolder()">
+  <div class="modal-box">
+    <button class="modal-x" onclick="closeFolder()">×</button>
+    <h3>设置扫描文件夹</h3>
+    <div class="qr-tip" style="text-align:left">软件会扫描该文件夹下的每个子文件夹（招标项目），提取投标信息。</div>
+    <div style="display:flex;gap:8px;margin-top:14px">
+      <input id="folderInput" type="text" placeholder="例如：D:\投标资料" style="flex:1;min-width:0;padding:9px 12px;border:1px solid #cdd5df;border-radius:8px;font-size:13px;font-family:inherit">
+      <button onclick="pickFolder()" style="border:1px solid var(--blue);background:#eef6fc;color:var(--blue);font-size:13px;font-weight:600;padding:8px 14px;border-radius:8px;cursor:pointer;white-space:nowrap">浏览…</button>
+    </div>
+    <p class="qr-url" id="folderMsg" style="text-align:left"></p>
+    <div style="margin-top:6px"><button onclick="saveFolder()" style="border:1px solid var(--blue);background:var(--blue);color:#fff;font-size:14px;font-weight:600;padding:9px 24px;border-radius:8px;cursor:pointer">💾 保存并重新扫描</button></div>
+  </div>
+</div>
 <script>
 function esc(s){return (s||"").replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]))}
 function render(d){
   window.CURRENT_DATA=d;
   document.getElementById("updtime").textContent=d.updated_at||"—";
+  if(d.scan_folder)document.getElementById("srcfolder").textContent=d.scan_folder;
   if(d.error){document.getElementById("tbody").innerHTML='<div class="row"><div class="pname" style="color:#b00">'+esc(d.error)+'</div></div>';return;}
   if(!d.projects||!d.projects.length){document.getElementById("tbody").innerHTML='<div class="row"><div class="pname">未找到招标项目</div></div>';return;}
   var h="";
@@ -136,7 +158,7 @@ function render(d){
   document.getElementById("tbody").innerHTML=h;
 }
 function load(){fetch("data.json?t="+Date.now()).then(r=>r.json()).then(render).catch(function(){document.getElementById("tbody").innerHTML='<div class="row"><div class="pname">加载失败，请关闭后重新打开</div></div>'});}
-render({"updated_at": "2026-07-18 11:13:56", "count": 8, "projects": [{"project": "舜溪中路东侧、溪河路南侧(ZL060412)地块项目施工总承包", "owner": "常州市焦溪古镇保护发展有限公司", "deposit": "公告未列", "deposit_deadline": "未明确", "deposit_type": "公告未列", "open_time": "2026-07-17 09:30", "folder": "205舜溪中路东侧", "source": "招标文件正文.pdf", "status": "已核验", "qa_count": 0, "qa_label": "（暂无答疑）"}, {"project": "淮安旭创科技有限公司光通信产业基地项目一期土建工程", "owner": "淮安旭创科技有限公司", "deposit": "200 万元", "deposit_deadline": "同开标前到账", "deposit_type": "现金转账、银行保函", "open_time": "2026-07-26 14:00", "folder": "210淮安旭创", "source": "淮安旭创科技有限公司光通信产业基地项目一期土建工程招标文件20260710发布稿(2).doc", "status": "已核验", "qa_count": 1, "qa_label": "（1次答疑）"}, {"project": "南京医科大学江宁校区学生公寓南苑09栋施工总承包", "owner": "江苏省公共工程建设中心有限公司", "deposit": "50 万元", "deposit_deadline": "同开标前到账", "deposit_type": "银行转账、银行保函", "open_time": "2026-07-27 09:00", "folder": "201南京医科大学", "source": "招标文件正文.pdf", "status": "已核验", "qa_count": 3, "qa_label": "（3次答疑）"}, {"project": "南京民防大厦部分楼层维修改造及设备更新工程", "owner": "南京市机关事务管理局", "deposit": "45 万元", "deposit_deadline": "同开标前到账", "deposit_type": "现金、支票、银行保函、保险保单、担保保函、信用承诺", "open_time": "2026-07-28 09:15", "folder": "207南京民防大厦改造（芮）", "source": "招标文件.pdf", "status": "已核验", "qa_count": 1, "qa_label": "（1次答疑）"}, {"project": "南京信息工程大学新建文园学生宿舍项目施工总承包", "owner": "江苏省公共工程建设中心有限公司", "deposit": "50 万元", "deposit_deadline": "同开标前到账", "deposit_type": "银行转账、银行保函", "open_time": "2026-07-30 09:00", "folder": "212南京信息工程大学", "source": "招标文件正文.pdf", "status": "已核验", "qa_count": 0, "qa_label": "（暂无答疑）"}, {"project": "南京工程学院北区13#学生宿舍施工总承包", "owner": "江苏省公共工程建设中心有限公司", "deposit": "50 万元", "deposit_deadline": "同开标前到账", "deposit_type": "银行转账、银行保函", "open_time": "2026-08-04 09:00", "folder": "212南京工程学院北区13#学生宿舍", "source": "招标文件正文.pdf", "status": "已核验", "qa_count": 0, "qa_label": "（暂无答疑）"}, {"project": "210广西启瑞", "owner": "", "deposit": "", "deposit_deadline": "", "open_time": "", "deposit_type": "", "folder": "210广西启瑞", "source": "钢结构防火计算书.docx", "status": "自动提取·待复核", "qa_count": 0, "qa_label": "（暂无答疑）"}, {"folder": "218常外建模", "project": "218常外建模", "owner": "", "deposit": "无招标文件", "deposit_deadline": "", "open_time": "", "source": "", "status": "无招标公告/正文", "qa_count": 0, "qa_label": "（暂无答疑）"}]});
+render({"updated_at": "2026-07-18 11:22:18", "count": 8, "projects": [{"project": "舜溪中路东侧、溪河路南侧(ZL060412)地块项目施工总承包", "owner": "常州市焦溪古镇保护发展有限公司", "deposit": "公告未列", "deposit_deadline": "未明确", "deposit_type": "公告未列", "open_time": "2026-07-17 09:30", "folder": "205舜溪中路东侧", "source": "招标文件正文.pdf", "status": "已核验", "qa_count": 0, "qa_label": "（暂无答疑）"}, {"project": "淮安旭创科技有限公司光通信产业基地项目一期土建工程", "owner": "淮安旭创科技有限公司", "deposit": "200 万元", "deposit_deadline": "同开标前到账", "deposit_type": "现金转账、银行保函", "open_time": "2026-07-26 14:00", "folder": "210淮安旭创", "source": "淮安旭创科技有限公司光通信产业基地项目一期土建工程招标文件20260710发布稿(2).doc", "status": "已核验", "qa_count": 1, "qa_label": "（1次答疑）"}, {"project": "南京医科大学江宁校区学生公寓南苑09栋施工总承包", "owner": "江苏省公共工程建设中心有限公司", "deposit": "50 万元", "deposit_deadline": "同开标前到账", "deposit_type": "银行转账、银行保函", "open_time": "2026-07-27 09:00", "folder": "201南京医科大学", "source": "招标文件正文.pdf", "status": "已核验", "qa_count": 3, "qa_label": "（3次答疑）"}, {"project": "南京民防大厦部分楼层维修改造及设备更新工程", "owner": "南京市机关事务管理局", "deposit": "45 万元", "deposit_deadline": "同开标前到账", "deposit_type": "现金、支票、银行保函、保险保单、担保保函、信用承诺", "open_time": "2026-07-28 09:15", "folder": "207南京民防大厦改造（芮）", "source": "招标文件.pdf", "status": "已核验", "qa_count": 1, "qa_label": "（1次答疑）"}, {"project": "南京信息工程大学新建文园学生宿舍项目施工总承包", "owner": "江苏省公共工程建设中心有限公司", "deposit": "50 万元", "deposit_deadline": "同开标前到账", "deposit_type": "银行转账、银行保函", "open_time": "2026-07-30 09:00", "folder": "212南京信息工程大学", "source": "招标文件正文.pdf", "status": "已核验", "qa_count": 0, "qa_label": "（暂无答疑）"}, {"project": "南京工程学院北区13#学生宿舍施工总承包", "owner": "江苏省公共工程建设中心有限公司", "deposit": "50 万元", "deposit_deadline": "同开标前到账", "deposit_type": "银行转账、银行保函", "open_time": "2026-08-04 09:00", "folder": "212南京工程学院北区13#学生宿舍", "source": "招标文件正文.pdf", "status": "已核验", "qa_count": 0, "qa_label": "（暂无答疑）"}, {"project": "210广西启瑞", "owner": "", "deposit": "", "deposit_deadline": "", "open_time": "", "deposit_type": "", "folder": "210广西启瑞", "source": "钢结构防火计算书.docx", "status": "自动提取·待复核", "qa_count": 0, "qa_label": "（暂无答疑）"}, {"folder": "218常外建模", "project": "218常外建模", "owner": "", "deposit": "无招标文件", "deposit_deadline": "", "open_time": "", "source": "", "status": "无招标公告/正文", "qa_count": 0, "qa_label": "（暂无答疑）"}], "scan_folder": "F:\\投标"});
 function exportImage(){
   var m=document.getElementById("modal");m.style.display="flex";
   document.getElementById("fsUrl").style.display="none";
@@ -161,6 +183,35 @@ function doExport(){
   }
 }
 function closeShare(){document.getElementById("modal").style.display="none";}
+function openFolderSettings(){
+  document.getElementById("folderMsg").textContent="";
+  document.getElementById("folderInput").value=document.getElementById("srcfolder").textContent||"";
+  document.getElementById("folderModal").style.display="flex";
+}
+function closeFolder(){document.getElementById("folderModal").style.display="none";}
+function pickFolder(){
+  var msg=document.getElementById("folderMsg");
+  msg.style.color="var(--muted)";msg.textContent="正在打开系统文件夹选择…";
+  fetch("api/pick_folder",{method:"POST"}).then(r=>r.json()).then(function(d){
+    if(d.ok&&d.folder){document.getElementById("folderInput").value=d.folder;msg.textContent="已选择："+d.folder;msg.style.color="#1a7a3a";}
+    else if(d.ok&&!d.folder){msg.textContent="未选择文件夹";msg.style.color="var(--muted)";}
+    else{msg.textContent="⚠️ 无法打开系统选择框（"+d.err+"），请手动输入路径。";msg.style.color="#b00";}
+  }).catch(function(e){msg.textContent="⚠️ 请求失败："+e+"，请手动输入路径。";msg.style.color="#b00";});
+}
+function saveFolder(){
+  var f=document.getElementById("folderInput").value.trim();
+  var msg=document.getElementById("folderMsg");
+  if(!f){msg.textContent="请输入或选择文件夹路径";msg.style.color="#b00";return;}
+  msg.style.color="var(--muted)";msg.textContent="正在扫描…";
+  fetch("api/set_folder",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({folder:f})}).then(r=>r.json()).then(function(d){
+    if(d.ok){
+      render(d.data);
+      document.getElementById("srcfolder").textContent=d.folder;
+      msg.textContent="✅ 已切换到 "+d.folder+" 并重新扫描完成。";msg.style.color="#1a7a3a";
+      setTimeout(closeFolder,1200);
+    }else{msg.textContent="❌ "+d.err;msg.style.color="#b00";}
+  }).catch(function(e){msg.textContent="❌ 请求失败："+e;msg.style.color="#b00";});
+}
 function fmtICS(t){function p(x){return (x<10?"0":"")+x;}return t.getFullYear()+p(t.getMonth()+1)+p(t.getDate())+"T"+p(t.getHours())+p(t.getMinutes())+"00";}
 function escICS(s){return (s||"").replace(/\\/g,"\\\\").replace(/;/g,"\\;").replace(/,/g,"\\,").replace(/\r/g,"").replace(/\n/g,"\\n");}
 function exportCalendar(){
