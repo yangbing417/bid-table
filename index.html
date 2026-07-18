@@ -64,7 +64,7 @@
     .legend{margin-left:0;width:100%}
   }
   /* ====== 分享到手机 ====== */
-  .sharebar{display:flex;justify-content:flex-end;margin-top:18px}
+  .sharebar{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
   .sharebar button{
     border:1px solid var(--blue);background:var(--blue);color:#fff;font-size:13px;font-weight:600;
     padding:8px 18px;border-radius:8px;cursor:pointer;transition:.18s;display:inline-flex;align-items:center;gap:6px
@@ -90,7 +90,7 @@
     <b>说明：</b>开标时间即投标文件递交截止时间。投标保证金须在开标前到账。<br>
     已核验项＝人工核对基线；带「待复核」为新增文件夹自动提取，建议复核。无答疑记录的项目不显示答疑标签。
   </div>
-  <div class="sharebar"><button onclick="exportImage()">📥 导出图片</button></div>
+  <div class="sharebar"><button onclick="exportImage()">📥 导出图片</button><button onclick="exportCalendar()">📅 导出日历</button></div>
 </div>
 <div class="modal" id="modal" onclick="if(event.target===this)closeShare()">
   <div class="modal-box">
@@ -104,6 +104,7 @@
 <script>
 function esc(s){return (s||"").replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]))}
 function render(d){
+  window.CURRENT_DATA=d;
   document.getElementById("updtime").textContent=d.updated_at||"—";
   if(d.error){document.getElementById("tbody").innerHTML='<div class="row"><div class="pname" style="color:#b00">'+esc(d.error)+'</div></div>';return;}
   if(!d.projects||!d.projects.length){document.getElementById("tbody").innerHTML='<div class="row"><div class="pname">未找到招标项目</div></div>';return;}
@@ -135,7 +136,7 @@ function render(d){
   document.getElementById("tbody").innerHTML=h;
 }
 function load(){fetch("data.json?t="+Date.now()).then(r=>r.json()).then(render).catch(function(){document.getElementById("tbody").innerHTML='<div class="row"><div class="pname">加载失败，请关闭后重新打开</div></div>'});}
-render({"updated_at": "2026-07-18 11:09:06", "count": 8, "projects": [{"project": "舜溪中路东侧、溪河路南侧(ZL060412)地块项目施工总承包", "owner": "常州市焦溪古镇保护发展有限公司", "deposit": "公告未列", "deposit_deadline": "未明确", "deposit_type": "公告未列", "open_time": "2026-07-17 09:30", "folder": "205舜溪中路东侧", "source": "招标文件正文.pdf", "status": "已核验", "qa_count": 0, "qa_label": "（暂无答疑）"}, {"project": "淮安旭创科技有限公司光通信产业基地项目一期土建工程", "owner": "淮安旭创科技有限公司", "deposit": "200 万元", "deposit_deadline": "同开标前到账", "deposit_type": "现金转账、银行保函", "open_time": "2026-07-26 14:00", "folder": "210淮安旭创", "source": "淮安旭创科技有限公司光通信产业基地项目一期土建工程招标文件20260710发布稿(2).doc", "status": "已核验", "qa_count": 1, "qa_label": "（1次答疑）"}, {"project": "南京医科大学江宁校区学生公寓南苑09栋施工总承包", "owner": "江苏省公共工程建设中心有限公司", "deposit": "50 万元", "deposit_deadline": "同开标前到账", "deposit_type": "银行转账、银行保函", "open_time": "2026-07-27 09:00", "folder": "201南京医科大学", "source": "招标文件正文.pdf", "status": "已核验", "qa_count": 3, "qa_label": "（3次答疑）"}, {"project": "南京民防大厦部分楼层维修改造及设备更新工程", "owner": "南京市机关事务管理局", "deposit": "45 万元", "deposit_deadline": "同开标前到账", "deposit_type": "现金、支票、银行保函、保险保单、担保保函、信用承诺", "open_time": "2026-07-28 09:15", "folder": "207南京民防大厦改造（芮）", "source": "招标文件.pdf", "status": "已核验", "qa_count": 1, "qa_label": "（1次答疑）"}, {"project": "南京信息工程大学新建文园学生宿舍项目施工总承包", "owner": "江苏省公共工程建设中心有限公司", "deposit": "50 万元", "deposit_deadline": "同开标前到账", "deposit_type": "银行转账、银行保函", "open_time": "2026-07-30 09:00", "folder": "212南京信息工程大学", "source": "招标文件正文.pdf", "status": "已核验", "qa_count": 0, "qa_label": "（暂无答疑）"}, {"project": "南京工程学院北区13#学生宿舍施工总承包", "owner": "江苏省公共工程建设中心有限公司", "deposit": "50 万元", "deposit_deadline": "同开标前到账", "deposit_type": "银行转账、银行保函", "open_time": "2026-08-04 09:00", "folder": "212南京工程学院北区13#学生宿舍", "source": "招标文件正文.pdf", "status": "已核验", "qa_count": 0, "qa_label": "（暂无答疑）"}, {"project": "210广西启瑞", "owner": "", "deposit": "", "deposit_deadline": "", "open_time": "", "deposit_type": "", "folder": "210广西启瑞", "source": "钢结构防火计算书.docx", "status": "自动提取·待复核", "qa_count": 0, "qa_label": "（暂无答疑）"}, {"folder": "218常外建模", "project": "218常外建模", "owner": "", "deposit": "无招标文件", "deposit_deadline": "", "open_time": "", "source": "", "status": "无招标公告/正文", "qa_count": 0, "qa_label": "（暂无答疑）"}]});
+render({"updated_at": "2026-07-18 11:13:56", "count": 8, "projects": [{"project": "舜溪中路东侧、溪河路南侧(ZL060412)地块项目施工总承包", "owner": "常州市焦溪古镇保护发展有限公司", "deposit": "公告未列", "deposit_deadline": "未明确", "deposit_type": "公告未列", "open_time": "2026-07-17 09:30", "folder": "205舜溪中路东侧", "source": "招标文件正文.pdf", "status": "已核验", "qa_count": 0, "qa_label": "（暂无答疑）"}, {"project": "淮安旭创科技有限公司光通信产业基地项目一期土建工程", "owner": "淮安旭创科技有限公司", "deposit": "200 万元", "deposit_deadline": "同开标前到账", "deposit_type": "现金转账、银行保函", "open_time": "2026-07-26 14:00", "folder": "210淮安旭创", "source": "淮安旭创科技有限公司光通信产业基地项目一期土建工程招标文件20260710发布稿(2).doc", "status": "已核验", "qa_count": 1, "qa_label": "（1次答疑）"}, {"project": "南京医科大学江宁校区学生公寓南苑09栋施工总承包", "owner": "江苏省公共工程建设中心有限公司", "deposit": "50 万元", "deposit_deadline": "同开标前到账", "deposit_type": "银行转账、银行保函", "open_time": "2026-07-27 09:00", "folder": "201南京医科大学", "source": "招标文件正文.pdf", "status": "已核验", "qa_count": 3, "qa_label": "（3次答疑）"}, {"project": "南京民防大厦部分楼层维修改造及设备更新工程", "owner": "南京市机关事务管理局", "deposit": "45 万元", "deposit_deadline": "同开标前到账", "deposit_type": "现金、支票、银行保函、保险保单、担保保函、信用承诺", "open_time": "2026-07-28 09:15", "folder": "207南京民防大厦改造（芮）", "source": "招标文件.pdf", "status": "已核验", "qa_count": 1, "qa_label": "（1次答疑）"}, {"project": "南京信息工程大学新建文园学生宿舍项目施工总承包", "owner": "江苏省公共工程建设中心有限公司", "deposit": "50 万元", "deposit_deadline": "同开标前到账", "deposit_type": "银行转账、银行保函", "open_time": "2026-07-30 09:00", "folder": "212南京信息工程大学", "source": "招标文件正文.pdf", "status": "已核验", "qa_count": 0, "qa_label": "（暂无答疑）"}, {"project": "南京工程学院北区13#学生宿舍施工总承包", "owner": "江苏省公共工程建设中心有限公司", "deposit": "50 万元", "deposit_deadline": "同开标前到账", "deposit_type": "银行转账、银行保函", "open_time": "2026-08-04 09:00", "folder": "212南京工程学院北区13#学生宿舍", "source": "招标文件正文.pdf", "status": "已核验", "qa_count": 0, "qa_label": "（暂无答疑）"}, {"project": "210广西启瑞", "owner": "", "deposit": "", "deposit_deadline": "", "open_time": "", "deposit_type": "", "folder": "210广西启瑞", "source": "钢结构防火计算书.docx", "status": "自动提取·待复核", "qa_count": 0, "qa_label": "（暂无答疑）"}, {"folder": "218常外建模", "project": "218常外建模", "owner": "", "deposit": "无招标文件", "deposit_deadline": "", "open_time": "", "source": "", "status": "无招标公告/正文", "qa_count": 0, "qa_label": "（暂无答疑）"}]});
 function exportImage(){
   var m=document.getElementById("modal");m.style.display="flex";
   document.getElementById("fsUrl").style.display="none";
@@ -160,6 +161,43 @@ function doExport(){
   }
 }
 function closeShare(){document.getElementById("modal").style.display="none";}
+function fmtICS(t){function p(x){return (x<10?"0":"")+x;}return t.getFullYear()+p(t.getMonth()+1)+p(t.getDate())+"T"+p(t.getHours())+p(t.getMinutes())+"00";}
+function escICS(s){return (s||"").replace(/\\/g,"\\\\").replace(/;/g,"\\;").replace(/,/g,"\\,").replace(/\r/g,"").replace(/\n/g,"\\n");}
+function exportCalendar(){
+  var d=window.CURRENT_DATA;
+  if(!d||!d.projects){alert("数据尚未加载，请稍候重试");return;}
+  var lines=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//bid-table//CN","CALSCALE:GREGORIAN","METHOD:PUBLISH"];
+  var now=new Date();var stamp=fmtICS(now);var n=0;
+  d.projects.forEach(function(p){
+    if(!p.open_time)return;
+    var m=p.open_time.match(/(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})/);
+    if(!m)return;
+    var start=new Date(+m[1],+m[2]-1,+m[3],+m[4],+m[5],0);
+    var end=new Date(start.getTime()+60*60*1000);
+    var desc="招标人："+(p.owner||"")+"\n投标保证金："+(p.deposit||"")+"\n保证金形式："+(p.deposit_type||"")+"\n保证金截止："+(p.deposit_deadline||"")+"\n状态："+(p.status||"");
+    if(p.qa_count>0)desc+="\n答疑："+p.qa_label;
+    lines.push("BEGIN:VEVENT");
+    lines.push("UID:bid-"+n+"-"+stamp+"@yangbing417");
+    lines.push("DTSTAMP:"+stamp);
+    lines.push("DTSTART:"+fmtICS(start));
+    lines.push("DTEND:"+fmtICS(end));
+    lines.push("SUMMARY:"+escICS((p.project||"项目")+" 开标"));
+    lines.push("DESCRIPTION:"+escICS(desc));
+    lines.push("BEGIN:VALARM");
+    lines.push("TRIGGER:-P1D");
+    lines.push("ACTION:DISPLAY");
+    lines.push("DESCRIPTION:"+escICS((p.project||"项目")+" 开标提醒（明天）"));
+    lines.push("END:VALARM");
+    lines.push("END:VEVENT");
+    n++;
+  });
+  lines.push("END:VCALENDAR");
+  if(n===0){alert("当前没有带开标时间的项目，无法生成日历");return;}
+  var blob=new Blob([lines.join("\r\n")],{type:"text/calendar;charset=utf-8"});
+  var u=URL.createObjectURL(blob);var a=document.createElement("a");
+  a.href=u;a.download="待开标情况_日历.ics";a.click();URL.revokeObjectURL(u);
+  alert("已生成 "+n+" 个开标日程（.ics）。\n\n手机导入方法：\n• 把该文件发到微信/飞书，手机点开选「添加到日历」；\n• 或邮件发给自己，手机邮箱里点开 .ics 即可导入。\n每个日程已设「提前1天」提醒。");
+}
 </script>
 </body>
 </html>
