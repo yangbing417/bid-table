@@ -15,32 +15,8 @@ TZNAME:CST
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
-UID:7f8f7cc5d3d15e2bbfea2bd410e886af@bid-table
-DTSTAMP:20260723T055915Z
-DTSTART;TZID=Asia/Shanghai:20260717T093000
-DTEND;TZID=Asia/Shanghai:20260717T103000
-SUMMARY:开标 - 舜溪中路东侧、溪河路南侧(ZL060412)地块项目施工总承包
-DESCRIPTION:招标人：常州市焦溪古镇保护发展有限公司\n最高投标限价：公告未列\n投标保证金：公告未列\n保证金形式：公告未列\n保证金截止：未明确\n状态：已核验
-END:VEVENT
-BEGIN:VEVENT
-UID:60640be2fc30f02d0fc8e8b2c3e96f16@bid-table
-DTSTAMP:20260723T055915Z
-DTSTART;TZID=Asia/Shanghai:20260722T094500
-DTEND;TZID=Asia/Shanghai:20260722T104500
-SUMMARY:开标 - 南京民防大厦部分楼层维修改造及设备更新工程
-DESCRIPTION:招标人：南京市机关\n最高投标限价：2368.67 万元\n投标保证金：45.00 万元\n保证金形式：现金\n保证金截止：投标截止时间前\n状态：已核验
-END:VEVENT
-BEGIN:VEVENT
-UID:8a7f3a6b19c448f9d77cc6c567327daf@bid-table
-DTSTAMP:20260723T055915Z
-DTSTART;TZID=Asia/Shanghai:20260726T140000
-DTEND;TZID=Asia/Shanghai:20260726T150000
-SUMMARY:开标 - 淮安旭创科技有限公司光通信产业基地项目一期土建工程
-DESCRIPTION:招标人：淮安旭创科技有限公司\n最高投标限价：\n投标保证金：\n保证金形式：\n保证金截止：投标截止时间前\n状态：已核验
-END:VEVENT
-BEGIN:VEVENT
 UID:2ba2da84ee8d99d73454e3f945b3714b@bid-table
-DTSTAMP:20260723T055915Z
+DTSTAMP:20260724T094912Z
 DTSTART;TZID=Asia/Shanghai:20260727T090000
 DTEND;TZID=Asia/Shanghai:20260727T100000
 SUMMARY:开标 - 南京医科大学江宁校区学生公寓南苑09栋施工总承包
@@ -48,7 +24,7 @@ DESCRIPTION:招标人：江苏省公共工程建设中心有限公司\n最高投
 END:VEVENT
 BEGIN:VEVENT
 UID:b773fb8b7e62472e9c5dbc94f5181235@bid-table
-DTSTAMP:20260723T055915Z
+DTSTAMP:20260724T094912Z
 DTSTART;TZID=Asia/Shanghai:20260730T090000
 DTEND;TZID=Asia/Shanghai:20260730T100000
 SUMMARY:开标 - 南京信息工程大学新建文园学生宿舍项目施工总承包
@@ -56,10 +32,18 @@ DESCRIPTION:招标人：江苏省公共工程建设中心有限公司\n最高投
 END:VEVENT
 BEGIN:VEVENT
 UID:2aaa500860d3506375640cda98e1dfa9@bid-table
-DTSTAMP:20260723T055915Z
+DTSTAMP:20260724T094912Z
 DTSTART;TZID=Asia/Shanghai:20260804T090000
 DTEND;TZID=Asia/Shanghai:20260804T100000
 SUMMARY:开标 - 南京工程学院北区13#学生宿舍施工总承包
 DESCRIPTION:招标人：江苏省公共工程建设中心有限公司\n最高投标限价：5484.82 万元\n投标保证金：50 万元\n保证金形式：银行转账、银行保函\n保证金截止：同开标前到账\n状态：已核验
+END:VEVENT
+BEGIN:VEVENT
+UID:b9eee232a77b8cc07be54cfa0a5a9439@bid-table
+DTSTAMP:20260724T094912Z
+DTSTART;TZID=Asia/Shanghai:20260810T093000
+DTEND;TZID=Asia/Shanghai:20260810T103000
+SUMMARY:开标 - ）遥观镇剑
+DESCRIPTION:招标人：常州市武进区遥观镇人民政府\n最高投标限价：\n投标保证金：\n保证金形式：\n保证金截止：投标截止时间前\n状态：已核验
 END:VEVENT
 END:VCALENDAR
