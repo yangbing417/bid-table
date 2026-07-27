@@ -14,36 +14,58 @@ TZOFFSETTO:+0800
 TZNAME:CST
 END:STANDARD
 END:VTIMEZONE
+X-PUBLISHED-TTL:PT1H
+REFRESH-INTERVAL;VALUE=DURATION:PT1H
 BEGIN:VEVENT
 UID:2ba2da84ee8d99d73454e3f945b3714b@bid-table
-DTSTAMP:20260724T094912Z
+DTSTAMP:20260727T084944Z
 DTSTART;TZID=Asia/Shanghai:20260727T090000
 DTEND;TZID=Asia/Shanghai:20260727T100000
-SUMMARY:开标 - 南京医科大学江宁校区学生公寓南苑09栋施工总承包
-DESCRIPTION:招标人：江苏省公共工程建设中心有限公司\n最高投标限价：11892.75 万元\n投标保证金：50 万元\n保证金形式：银行转账、银行保函\n保证金截止：同开标前到账\n状态：已核验
-END:VEVENT
-BEGIN:VEVENT
-UID:b773fb8b7e62472e9c5dbc94f5181235@bid-table
-DTSTAMP:20260724T094912Z
-DTSTART;TZID=Asia/Shanghai:20260730T090000
-DTEND;TZID=Asia/Shanghai:20260730T100000
-SUMMARY:开标 - 南京信息工程大学新建文园学生宿舍项目施工总承包
-DESCRIPTION:招标人：江苏省公共工程建设中心有限公司\n最高投标限价：12106.91 万元\n投标保证金：50 万元\n保证金形式：银行转账、银行保函\n保证金截止：同开标前到账\n状态：已核验
-END:VEVENT
-BEGIN:VEVENT
-UID:2aaa500860d3506375640cda98e1dfa9@bid-table
-DTSTAMP:20260724T094912Z
-DTSTART;TZID=Asia/Shanghai:20260804T090000
-DTEND;TZID=Asia/Shanghai:20260804T100000
-SUMMARY:开标 - 南京工程学院北区13#学生宿舍施工总承包
-DESCRIPTION:招标人：江苏省公共工程建设中心有限公司\n最高投标限价：5484.82 万元\n投标保证金：50 万元\n保证金形式：银行转账、银行保函\n保证金截止：同开标前到账\n状态：已核验
+SUMMARY:开标 - 南京医科大学江宁校区学生公寓南苑09栋
+DESCRIPTION:招标人：江苏省公共工程建设中心有限公司\n最高投标限价：1.19 亿元\n投标保证金：50.00 万元\n保证金形式：银行转账、银行保函\n保证金截止：投标截止时间前\n状态：已核验\n答疑：（3次答疑）
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:开标提醒（明天）：南京医科大学江宁校区学生公寓南苑09栋
+END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:b9eee232a77b8cc07be54cfa0a5a9439@bid-table
-DTSTAMP:20260724T094912Z
+DTSTAMP:20260727T084944Z
 DTSTART;TZID=Asia/Shanghai:20260810T093000
 DTEND;TZID=Asia/Shanghai:20260810T103000
-SUMMARY:开标 - ）遥观镇剑
-DESCRIPTION:招标人：常州市武进区遥观镇人民政府\n最高投标限价：\n投标保证金：\n保证金形式：\n保证金截止：投标截止时间前\n状态：已核验
+SUMMARY:开标 - 遥观剑湖街小区提升（芮）
+DESCRIPTION:招标人：常州市武进区遥观镇人民政府\n最高投标限价：830.00 万元\n投标保证金：16.00 万元\n保证金形式：银行转账、银行保函\n保证金截止：投标截止时间前\n状态：已核验
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:开标提醒（明天）：遥观剑湖街小区提升（芮）
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:b773fb8b7e62472e9c5dbc94f5181235@bid-table
+DTSTAMP:20260727T084944Z
+DTSTART;TZID=Asia/Shanghai:20260730T090000
+DTEND;TZID=Asia/Shanghai:20260730T100000
+SUMMARY:开标 - 南京信息工程大学新建文园学生宿舍项目
+DESCRIPTION:招标人：江苏省公共工程建设中心有限公司\n最高投标限价：1.21 亿元\n投标保证金：50.00 万元\n保证金形式：银行转账、银行保函\n保证金截止：投标截止时间前\n状态：已核验
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:开标提醒（明天）：南京信息工程大学新建文园学生宿舍项目
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:2aaa500860d3506375640cda98e1dfa9@bid-table
+DTSTAMP:20260727T084944Z
+DTSTART;TZID=Asia/Shanghai:20260804T090000
+DTEND;TZID=Asia/Shanghai:20260804T100000
+SUMMARY:开标 - 南京工程学院北区13#学生宿舍
+DESCRIPTION:招标人：江苏省公共工程建设中心有限公司\n最高投标限价：5484.82 万元\n投标保证金：50.00 万元\n保证金形式：银行转账、银行保函\n保证金截止：投标截止时间前\n状态：已核验\n答疑：（2次答疑）
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:开标提醒（明天）：南京工程学院北区13#学生宿舍
+END:VALARM
 END:VEVENT
 END:VCALENDAR
